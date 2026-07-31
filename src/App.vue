@@ -1,6 +1,15 @@
-<template>
-<input type="text" v-model="inputValue" placeholder="Enter your email to get the latest news" />
-<button @click="handleClick">Subscribe</button>
+<script setup>
+import Footer from '@/components/Footer.vue'
+import Header from './components/Header.vue';
+</script>
+
+<template> 
+<Header />
+<Footer />
+
+
+
+
 
 
 </template>
