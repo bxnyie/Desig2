@@ -7,6 +7,9 @@ import Product from './views/Product.vue'
 import Elements from './views/Elements.vue'
 
 const currentView = ref('home')
+
+
+
 </script>
 
 <template>
