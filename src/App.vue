@@ -5,6 +5,7 @@ import Header from './components/Header.vue'
 import Home from './views/Home.vue'
 import Product from './views/Product.vue'
 import Elements from './views/Elements.vue'
+import Profile from './views/Profile.vue'
 
 const currentView = ref('home')
 
@@ -19,6 +20,7 @@ const currentView = ref('home')
     <Home v-if="currentView === 'home'" />
     <Product v-else-if="currentView === 'products'" />
     <Elements v-else-if="currentView === 'elements'" />
+    <Profile v-else-if="currentView === 'profile'" />
   </main>
 
   <Footer />
