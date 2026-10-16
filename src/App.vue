@@ -1,3 +1,4 @@
+
 <script setup lang="ts">
 import { ref } from 'vue'
 import Footer from './components/Footer.vue'
@@ -6,22 +7,31 @@ import Home from './views/Home.vue'
 import Product from './views/Product.vue'
 import Elements from './views/Elements.vue'
 import Profile from './views/Profile.vue'
+import Signin from './views/Signin.vue'
+import Shoppingcart from './views/Shoppingcart.vue'
 
 const currentView = ref('home')
-
-
-
 </script>
 
 <template>
-  <Header :currentView="currentView" @navigate="currentView = $event" />
+  <div class="flex min-h-screen flex-col">
+    <Header
+      :currentView="currentView"
+      @navigate="currentView = $event"
+    />
 
-  <main class="flex-grow">
-    <Home v-if="currentView === 'home'" />
-    <Product v-else-if="currentView === 'products'" />
-    <Elements v-else-if="currentView === 'elements'" />
-    <Profile v-else-if="currentView === 'profile'" />
-  </main>
+    <main class="flex-grow">
+      <Home v-if="currentView === 'home'" />
+      <Product v-else-if="currentView === 'products'" />
+      <Elements v-else-if="currentView === 'elements'" />
+      <Profile v-else-if="currentView === 'profile'" />
+      <Signin v-else-if="currentView === 'signin'" />
+      <Shoppingcart
+        v-else-if="currentView === 'shoppingcart'"
+        @navigate="currentView = $event"
+      />
+    </main>
 
-  <Footer />
+    <Footer />
+  </div>
 </template>

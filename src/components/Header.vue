@@ -2,21 +2,36 @@
 const props = defineProps<{
   currentView?: string;
 }>();
+
 const emit = defineEmits<{
   (e: "navigate", view: string): void;
 }>();
+
+const navItems = [
+  { label: "Home", view: "home" },
+  { label: "Products", view: "products" },
+  { label: "Elements", view: "elements" },
+  { label: "Pages", view: "pages" },
+  { label: "Shop", view: "shop" },
+  { label: "Sale", view: "sale" },
+];
 </script>
 
 <template>
-   <div class="w-full h-[30px] bg-[#fff8b7]"></div>
-  <header class="relative h-[96px] w-full px-7">
-    <!-- Search：左上 -->
+  <div class="h-[30px] w-full bg-[#fff8b7]"></div>
+
+  <header
+    class="relative h-[96px] w-full px-7 text-black"
+    :class="{ 'home-active': props.currentView === 'home' }"
+  >
+    <!-- Search -->
     <div class="absolute left-7 top-3">
       <div class="relative">
         <input
           type="text"
+          aria-label="Search"
           placeholder="Search..."
-          class="w-[200px] h-[32px] pl-9 pr-4 rounded-lg border border-slate-300"
+          class="h-[32px] w-[200px] rounded-lg border border-slate-300 pl-9 pr-4 text-black"
         />
 
         <svg
@@ -25,7 +40,7 @@ const emit = defineEmits<{
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
+          class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black"
         >
           <path
             stroke-linecap="round"
@@ -36,127 +51,63 @@ const emit = defineEmits<{
       </div>
     </div>
 
-    <!-- Logo：正中間 -->
+    <!-- Logo -->
     <img
-      src="/lala.png"
-      alt="Logo"
-      class="absolute left-1/2 top-3 h-[39px] w-[181px] -translate-x-1/2 object-contain"
+      src="/logo.png"
+      alt="Aifos Logo"
+      class="header-logo absolute left-1/2 top-3 h-[39px] w-[181px] -translate-x-1/2 object-contain"
     />
 
-    <!-- Navigation：左下 -->
+    <!-- Navigation -->
     <nav
       class="absolute bottom-3 left-7 hidden items-center gap-[40px] md:flex"
     >
       <a
+        v-for="item in navItems"
+        :key="item.view"
         href="#"
-        @click.prevent="emit('navigate', 'home')"
-        :class="[
-          'text-sm font-normal font-[Poppins]',
-          props.currentView === 'home'
+        @click.prevent="emit('navigate', item.view)"
+        class="font-[Poppins] text-sm font-normal"
+        :class="
+          props.currentView === item.view
             ? 'text-blue-500'
-            : 'text-slate-700 hover:text-blue-500',
-        ]"
+            : 'text-black hover:text-blue-500'
+        "
       >
-        Home
-      </a>
-
-      <a
-        href="#"
-        @click.prevent="emit('navigate', 'products')"
-        :class="[
-          'text-sm font-normal font-[Poppins]',
-          props.currentView === 'products'
-            ? 'text-blue-500'
-            : 'text-slate-700 hover:text-blue-500',
-        ]"
-      >
-        Products
-      </a>
-
-      <a
-        href="#"
-        @click.prevent="emit('navigate', 'elements')"
-        :class="[
-          'text-sm font-normal font-[Poppins]',
-          props.currentView === 'elements'
-            ? 'text-blue-500'
-            : 'text-slate-700 hover:text-blue-500',
-        ]"
-      >
-        Elements
-      </a>
-
-      <a
-        href="#"
-        @click.prevent="emit('navigate', 'pages')"
-        :class="[
-          'text-sm font-normal font-[Poppins]',
-          props.currentView === 'pages'
-            ? 'text-blue-500'
-            : 'text-slate-700 hover:text-blue-500',
-        ]"
-      >
-        Pages
-      </a>
-
-      <a
-        href="#"
-        @click.prevent="emit('navigate', 'shop')"
-        :class="[
-          'text-sm font-normal font-[Poppins]',
-          props.currentView === 'shop'
-            ? 'text-blue-500'
-            : 'text-slate-700 hover:text-blue-500',
-        ]"
-      >
-        Shop
-      </a>
-
-      <a
-        href="#"
-        @click.prevent="emit('navigate', 'sale')"
-        :class="[
-          'text-sm font-normal font-[Poppins]',
-          props.currentView === 'sale'
-            ? 'text-blue-500'
-            : 'text-slate-700 hover:text-blue-500',
-        ]"
-      >
-        Sale
+        {{ item.label }}
       </a>
     </nav>
 
-    <!-- Icons：右邊 -->
+    <!-- Right-side controls -->
     <div
-      class="absolute right-7 top-1/2 flex -translate-y-1/2 items-center gap-5"
+      class="absolute right-7 top-1/2 flex -translate-y-1/2 items-center gap-5 text-black"
     >
-      <div>
-        <form class="flex flex-col gap-4">
-          <select id="size" class="border p-2">
-            <option value="s">English</option>
-            <option value="m">Chinese</option>
-            <option value="l">Japanese</option>
-          </select>
-        </form>
-      </div>
+      <select
+        aria-label="Language"
+        class="border-0 bg-transparent p-2 text-black shadow-none outline-none focus:ring-0"
+      >
+        <option value="en">English</option>
+        <option value="zh">Chinese</option>
+        <option value="ja">Japanese</option>
+      </select>
 
-      <div>
-        <form class="flex flex-col gap-4">
-          <select id="size" class="border p-2">
-            <option value="s">USD</option>
-            <option value="m">NTD</option>
-            <option value="l">JPY</option>
-          </select>
-        </form>
-      </div>
+      <select
+        aria-label="Currency"
+        class="border-0 bg-transparent p-2 text-black shadow-none outline-none focus:ring-0"
+      >
+        <option value="usd">USD</option>
+        <option value="ntd">NTD</option>
+        <option value="jpy">JPY</option>
+      </select>
 
+      <!-- Wishlist -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="h-6 w-6 text-slate-700"
+        class="h-6 w-6 text-black"
       >
         <path
           stroke-linecap="round"
@@ -165,13 +116,14 @@ const emit = defineEmits<{
         />
       </svg>
 
+      <!-- Notifications -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="h-6 w-6 text-slate-700"
+        class="h-6 w-6 text-black"
       >
         <path
           stroke-linecap="round"
@@ -180,60 +132,120 @@ const emit = defineEmits<{
         />
       </svg>
 
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="h-6 w-6 text-slate-700"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-        />
-      </svg>
-<!-- Profile -->
+      <!-- Cart -->
+
+      <!-- Cart -->
       <button
-        @click.prevent="emit('navigate', 'profile')"
-        class="h-6 w-6 text-slate-700">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="size-6"
+        type="button"
+        @click="emit('navigate', 'shoppingcart')"
+        class="cursor-pointer"
+        aria-label="Shopping Cart"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-        />
-      </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="h-6 w-6 text-black"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+          />
+        </svg>
       </button>
 
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="size-6"
+      <!-- Profile -->
+      <button
+        type="button"
+        aria-label="Profile"
+        @click="emit('navigate', 'profile')"
+        class="h-6 w-6 text-black"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.559.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.894.149c-.424.07-.764.383-.929.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.398.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.272-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z"
-        />
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-        />
-      </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+          />
+        </svg>
+      </button>
+
+      <!-- Sign in -->
+      <button
+        type="button"
+        aria-label="Sign in"
+        @click="emit('navigate', 'signin')"
+        class="h-6 w-6 text-black"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.559.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.894.149c-.424.07-.764.383-.929.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.398.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.272-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+          />
+        </svg>
+      </button>
     </div>
   </header>
- 
 </template>
+
+<style scoped>
+header.home-active {
+  z-index: 20;
+  margin-bottom: -96px;
+  background: transparent;
+  color: white;
+}
+
+header.home-active nav a,
+header.home-active select,
+header.home-active button,
+header.home-active svg {
+  color: white;
+}
+
+header.home-active nav a:hover {
+  opacity: 0.75;
+}
+
+header.home-active select option {
+  color: black;
+  background: white;
+}
+
+header.home-active .header-logo {
+  filter: brightness(0) invert(1);
+}
+
+header.home-active input {
+  background: transparent;
+  border-color: rgb(255 255 255 / 60%);
+  color: white;
+}
+
+header.home-active input::placeholder {
+  color: rgb(255 255 255 / 80%);
+}
+</style>
